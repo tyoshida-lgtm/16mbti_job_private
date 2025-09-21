@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBTI採用適性診断ツール - 完全版</title>
+    <title>MBTI適性診断 - 仕事×プライベート2軸分析</title>
     <style>
         * {
             margin: 0;
@@ -12,199 +12,168 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #ffffff;
-            min-height: 100vh;
-            color: #2d3748;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.5;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0;
+            min-height: 100vh;
         }
 
-        .card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            margin-bottom: 20px;
-            animation: fadeIn 0.5s ease-out;
+        /* ヘッダー */
+        .header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* スタート画面 */
-        .hero-section {
-            text-align: center;
-            padding: 60px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            border-radius: 12px;
-            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* 開始画面 */
+        .start-screen {
+            background: white;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .start-title {
+            font-size: 2.5rem;
             font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
         }
 
-        .subtitle {
+        .start-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .feature-highlight {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+            max-width: 500px;
+        }
+
+        .feature-highlight h3 {
             font-size: 1.3rem;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
+        }
+
+        .feature-highlight p {
+            font-size: 1rem;
             opacity: 0.9;
         }
 
         .start-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            border: 2px solid white;
-            padding: 15px 40px;
+            border: none;
+            padding: 18px 40px;
             border-radius: 50px;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            margin-top: 20px;
+            min-height: 56px;
         }
 
-        .start-btn:hover {
-            background: white;
-            color: #667eea;
+        .start-btn:hover, .start-btn:active {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
 
-        /* プログレス */
-        .progress-container {
-            margin-bottom: 30px;
-            background: #f7fafc;
+        /* 診断画面 */
+        .test-screen {
+            background: white;
+            min-height: calc(100vh - 70px);
+            padding: 0;
+        }
+
+        .progress-section {
+            background: #f8f9fa;
             padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e9ecef;
         }
 
         .progress-bar {
             width: 100%;
             height: 8px;
-            background: #e2e8f0;
+            background: #e9ecef;
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 4px;
-            transition: width 0.5s ease-out;
+            transition: width 0.8s ease-out;
         }
 
-        .progress-text {
+        .progress-info {
             display: flex;
             justify-content: space-between;
-            color: #718096;
             font-size: 14px;
+            color: #6c757d;
             font-weight: 500;
         }
 
-        .section-progress {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 5px;
-            margin-top: 15px;
-        }
-
-        .section-dot {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
-
-        .section-dot.completed {
-            background: #48bb78;
-        }
-
-        .section-dot.current {
-            background: #667eea;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.6;
-            }
-        }
-
-        /* 質問セクション */
-        .questions-section {
-            margin-bottom: 30px;
-        }
-
-        .section-header {
-            background: #f7fafc;
-            color: #2d3748;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-header h3 {
-            color: #667eea;
-            font-size: 1.5rem;
-        }
-
-        .answered-count {
-            background: #48bb78;
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .question-block {
-            background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .question-block.private {
-            border-left: 4px solid #f093fb;
-        }
-
-        .question-block.work {
-            border-left: 4px solid #667eea;
+        /* 質問エリア */
+        .question-area {
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .question-number {
             color: #667eea;
+            font-size: 14px;
             font-weight: 600;
             margin-bottom: 8px;
-            font-size: 14px;
         }
 
         .question-context {
@@ -212,26 +181,26 @@
             padding: 4px 12px;
             background: #667eea;
             color: white;
-            border-radius: 20px;
+            border-radius: 12px;
             font-size: 12px;
-            margin-bottom: 15px;
+            font-weight: 500;
+            margin-bottom: 20px;
         }
 
         .question-context.private {
-            background: #f093fb;
+            background: #e74c3c;
         }
 
         .question-text {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            color: #2d3748;
+            font-size: 1.4rem;
             font-weight: 500;
-            text-align: center;
-            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            line-height: 1.4;
         }
 
-        /* 本家スタイルの選択肢 */
-        .choice-container {
+        /* 選択肢エリア */
+        .choices-area {
             margin: 40px 0;
         }
 
@@ -239,37 +208,37 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 30px;
-            padding: 0 20px;
-        }
-
-        .choice-left, .choice-right {
-            font-size: 16px;
+            font-size: 15px;
+            color: #6c757d;
             font-weight: 500;
-            color: #718096;
         }
 
         .choice-left {
             text-align: left;
-            max-width: 45%;
+            flex: 1;
+            padding-right: 15px;
         }
 
         .choice-right {
             text-align: right;
-            max-width: 45%;
+            flex: 1;
+            padding-left: 15px;
         }
 
-        /* 本家風の円形ボタン（サイズ調整） */
+        /* 本家風円形ボタン */
         .choice-circles {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 30px 0;
             padding: 0 10px;
+            margin: 30px 0;
         }
 
         .choice-circle {
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             border: 3px solid;
+            border-radius: 50%;
             background: white;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -279,18 +248,38 @@
             position: relative;
         }
 
-        /* 本家準拠のサイズ調整（端が大きく、中心が小さく） */
-        .choice-circle:nth-child(1) { width: 60px; height: 60px; border-color: #059669; } /* 最大（左端） */
-        .choice-circle:nth-child(2) { width: 55px; height: 55px; border-color: #10b981; }
-        .choice-circle:nth-child(3) { width: 50px; height: 50px; border-color: #34d399; }
-        .choice-circle:nth-child(4) { width: 45px; height: 45px; border-color: #9ca3af; } /* 最小（中心） */
-        .choice-circle:nth-child(5) { width: 50px; height: 50px; border-color: #c084fc; }
-        .choice-circle:nth-child(6) { width: 55px; height: 55px; border-color: #a855f7; }
-        .choice-circle:nth-child(7) { width: 60px; height: 60px; border-color: #7c3aed; } /* 最大（右端） */
+        /* グラデーションサイズ（本家準拠） */
+        .choice-circle:nth-child(1) { 
+            width: 60px; height: 60px; 
+            border-color: #27ae60; 
+        }
+        .choice-circle:nth-child(2) { 
+            width: 55px; height: 55px; 
+            border-color: #2ecc71; 
+        }
+        .choice-circle:nth-child(3) { 
+            width: 50px; height: 50px; 
+            border-color: #58d68d; 
+        }
+        .choice-circle:nth-child(4) { 
+            width: 45px; height: 45px; 
+            border-color: #bdc3c7; 
+        }
+        .choice-circle:nth-child(5) { 
+            width: 50px; height: 50px; 
+            border-color: #bb6bd9; 
+        }
+        .choice-circle:nth-child(6) { 
+            width: 55px; height: 55px; 
+            border-color: #9b59b6; 
+        }
+        .choice-circle:nth-child(7) { 
+            width: 60px; height: 60px; 
+            border-color: #8e44ad; 
+        }
 
-        .choice-circle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        .choice-circle:active {
+            transform: scale(0.95);
         }
 
         .choice-circle.selected {
@@ -298,118 +287,90 @@
             transform: scale(1.05);
         }
 
-        .choice-circle.selected:nth-child(1) { 
-            background: #059669; 
-            border-color: #047857;
-        }
-        .choice-circle.selected:nth-child(2) { 
-            background: #10b981; 
-            border-color: #059669;
-        }
-        .choice-circle.selected:nth-child(3) { 
-            background: #34d399; 
-            border-color: #10b981;
-        }
-        .choice-circle.selected:nth-child(4) { 
-            background: #9ca3af; 
-            border-color: #6b7280;
-        }
-        .choice-circle.selected:nth-child(5) { 
-            background: #c084fc; 
-            border-color: #a855f7;
-        }
-        .choice-circle.selected:nth-child(6) { 
-            background: #a855f7; 
-            border-color: #8b5cf6;
-        }
-        .choice-circle.selected:nth-child(7) { 
-            background: #7c3aed; 
-            border-color: #6d28d9;
-        }
+        .choice-circle.selected:nth-child(1) { background: #27ae60; border-color: #1e8449; }
+        .choice-circle.selected:nth-child(2) { background: #2ecc71; border-color: #27ae60; }
+        .choice-circle.selected:nth-child(3) { background: #58d68d; border-color: #2ecc71; }
+        .choice-circle.selected:nth-child(4) { background: #bdc3c7; border-color: #95a5a6; }
+        .choice-circle.selected:nth-child(5) { background: #bb6bd9; border-color: #9b59b6; }
+        .choice-circle.selected:nth-child(6) { background: #9b59b6; border-color: #8e44ad; }
+        .choice-circle.selected:nth-child(7) { background: #8e44ad; border-color: #7d3c98; }
 
         /* チェックマーク */
         .choice-circle::after {
             content: '✓';
             color: white;
             font-weight: bold;
+            font-size: 20px;
             opacity: 0;
             transition: opacity 0.3s;
-        }
-
-        .choice-circle:nth-child(1)::after,
-        .choice-circle:nth-child(2)::after,
-        .choice-circle:nth-child(6)::after,
-        .choice-circle:nth-child(7)::after {
-            font-size: 22px;
-        }
-
-        .choice-circle:nth-child(3)::after,
-        .choice-circle:nth-child(5)::after {
-            font-size: 20px;
-        }
-
-        .choice-circle:nth-child(4)::after {
-            font-size: 18px;
         }
 
         .choice-circle.selected::after {
             opacity: 1;
         }
 
-        /* ボタン */
-        .btn {
-            background: #667eea;
-            color: white;
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            max-width: 200px;
+            padding: 15px 25px;
             border: none;
-            padding: 12px 30px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            display: inline-block;
-            text-decoration: none;
+            min-height: 50px;
         }
 
-        .btn:hover {
-            background: #5a67d8;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
         }
 
-        .btn:disabled {
+        .nav-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .nav-btn:hover, .nav-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .btn-secondary {
-            background: #718096;
-            margin-left: 10px;
-        }
-
-        .btn-secondary:hover {
-            background: #4a5568;
-        }
-
-        .validation-message {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 12px 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            border: 1px solid #feb2b2;
+        /* エラーメッセージ */
+        .error-message {
+            background: #e74c3c;
+            color: white;
+            padding: 15px 20px;
+            margin: 0 20px 20px 20px;
+            border-radius: 8px;
             display: none;
             animation: shake 0.5s;
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        .validation-message.show {
+        .error-message.show {
             display: block;
         }
 
@@ -417,1211 +378,868 @@
             display: none;
         }
 
+        /* モバイル最適化 */
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
+            .start-title {
+                font-size: 2rem;
             }
 
-            .card {
-                padding: 20px;
+            .question-text {
+                font-size: 1.2rem;
             }
 
-            h1 {
-                font-size: 2.5rem;
+            .choice-labels {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
 
-            .question-block {
-                padding: 30px 20px;
+            .choice-left, .choice-right {
+                padding: 0;
             }
 
             .choice-circles {
                 padding: 0 5px;
+                gap: 2px;
             }
 
-            /* モバイル用サイズ調整 */
             .choice-circle:nth-child(1) { width: 50px; height: 50px; }
-            .choice-circle:nth-child(2) { width: 45px; height: 45px; }
-            .choice-circle:nth-child(3) { width: 40px; height: 40px; }
-            .choice-circle:nth-child(4) { width: 35px; height: 35px; }
-            .choice-circle:nth-child(5) { width: 40px; height: 40px; }
-            .choice-circle:nth-child(6) { width: 45px; height: 45px; }
+            .choice-circle:nth-child(2) { width: 46px; height: 46px; }
+            .choice-circle:nth-child(3) { width: 42px; height: 42px; }
+            .choice-circle:nth-child(4) { width: 38px; height: 38px; }
+            .choice-circle:nth-child(5) { width: 42px; height: 42px; }
+            .choice-circle:nth-child(6) { width: 46px; height: 46px; }
             .choice-circle:nth-child(7) { width: 50px; height: 50px; }
 
-            .choice-labels {
-                padding: 0 10px;
-                font-size: 14px;
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 開始画面 -->
-        <div id="startScreen">
-            <div class="hero-section">
-                <h1>MBTI採用適性診断</h1>
-                <p class="subtitle">100問の質問で、仕事とプライベートの性格特性を高精度で分析</p>
-                <button class="start-btn" onclick="startAssessment()">診断を開始する</button>
+        <!-- ヘッダー -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">16</div>
+                <div class="logo-text">MBTI適性診断</div>
             </div>
+        </div>
+
+        <!-- 開始画面 -->
+        <div id="startScreen" class="start-screen">
+            <h1 class="start-title">MBTI適性診断</h1>
+            <p class="start-subtitle">
+                100問の質問で、あなたの性格を詳細分析<br>
+                仕事とプライベートの違いも明確に
+            </p>
+            
+            <div class="feature-highlight">
+                <h3>🎯 このツールの特徴</h3>
+                <p>
+                    <strong>仕事でのあなた</strong> と <strong>プライベートでのあなた</strong><br>
+                    2つのMBTIタイプを同時に診断し、違いを分析します
+                </p>
+            </div>
+
+            <button class="start-btn" onclick="startTest()">
+                無料で診断開始
+            </button>
+
+            <p style="margin-top: 20px; color: #7f8c8d; font-size: 14px;">
+                所要時間: 約12分 | 100問 | 完全無料
+            </p>
         </div>
 
         <!-- 診断画面 -->
-        <div id="assessmentScreen" class="card hidden">
-            <div class="progress-container">
+        <div id="testScreen" class="test-screen hidden">
+            <!-- プログレスバー -->
+            <div class="progress-section">
                 <div class="progress-bar">
                     <div id="progressFill" class="progress-fill" style="width: 0%"></div>
                 </div>
-                <div class="progress-text">
-                    <span id="progressText">0 / 100 問完了</span>
-                    <span id="sectionText">セクション 1 / 10</span>
-                </div>
-                <div class="section-progress" id="sectionProgress"></div>
-            </div>
-
-            <div class="validation-message" id="validationMessage">
-                すべての質問に回答してください
-            </div>
-
-            <div class="questions-section">
-                <div class="section-header">
-                    <h3 id="sectionTitle">セクション 1</h3>
-                    <span id="answeredCount" class="answered-count">0 / 10 回答済み</span>
-                </div>
-                <div id="questionsContainer">
-                    <!-- 10問の質問が動的に挿入される -->
+                <div class="progress-info">
+                    <span id="progressText">1 / 100</span>
+                    <span id="progressPercent">1%</span>
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-                <button class="btn btn-secondary" onclick="previousSection()" id="prevBtn" disabled>前のセクション</button>
-                <button class="btn" onclick="nextSection()" id="nextBtn">次のセクション</button>
+            <!-- エラーメッセージ -->
+            <div id="errorMessage" class="error-message">
+                回答を選択してから次に進んでください
+            </div>
+
+            <!-- 質問エリア -->
+            <div class="question-area">
+                <div id="questionNumber" class="question-number">質問 1</div>
+                <div id="questionContext" class="question-context">仕事</div>
+                <div id="questionText" class="question-text">
+                    <!-- 質問がここに表示される -->
+                </div>
+
+                <!-- 選択肢 -->
+                <div class="choices-area">
+                    <div class="choice-labels">
+                        <div id="choiceLeft" class="choice-left"><!-- 左の選択肢 --></div>
+                        <div id="choiceRight" class="choice-right"><!-- 右の選択肢 --></div>
+                    </div>
+
+                    <div class="choice-circles">
+                        <div class="choice-circle" onclick="selectChoice(1)"></div>
+                        <div class="choice-circle" onclick="selectChoice(2)"></div>
+                        <div class="choice-circle" onclick="selectChoice(3)"></div>
+                        <div class="choice-circle" onclick="selectChoice(4)"></div>
+                        <div class="choice-circle" onclick="selectChoice(5)"></div>
+                        <div class="choice-circle" onclick="selectChoice(6)"></div>
+                        <div class="choice-circle" onclick="selectChoice(7)"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ナビゲーションボタン -->
+            <div class="nav-buttons">
+                <button id="prevBtn" class="nav-btn secondary" onclick="previousQuestion()" disabled>
+                    前の質問
+                </button>
+                <button id="nextBtn" class="nav-btn primary" onclick="nextQuestion()">
+                    次の質問
+                </button>
             </div>
         </div>
 
-        <!-- 結果画面は既存のまま -->
-        <div id="resultsScreen" class="hidden">
-            <!-- 既存の結果画面コード -->
+        <!-- 結果画面（後で実装） -->
+        <div id="resultScreen" class="hidden">
+            <div style="padding: 40px 20px; text-align: center;">
+                <h2>診断完了！</h2>
+                <p>結果画面は開発中です</p>
+            </div>
         </div>
     </div>
 
     <script>
         // グローバル変数
-        let currentSection = 0;
+        let currentQuestionIndex = 0;
         let answers = new Array(100).fill(null);
         let startTime = null;
 
-        // 完全版質問データベース（100問）
+        // 簡潔な質問データベース（100問）
         const questions = [
             // E-I軸（25問）
             {
-                id: 1,
-                axis: 'E-I',
-                context: 'work',
-                type: 'direct',
-                text: '新しいプロジェクトのキックオフミーティングでは？',
-                left: '積極的にアイデアを発言し、議論をリードする',
-                right: 'まず他の人の意見を聞いてから、じっくり考えて発言する'
+                id: 1, axis: 'E-I', context: 'work',
+                text: '新しいプロジェクトが始まると',
+                left: '積極的に議論をリードする',
+                right: 'まず様子を見てから参加する'
             },
             {
-                id: 2,
-                axis: 'E-I',
-                context: 'private',
-                type: 'value',
-                text: '理想的な週末の過ごし方は？',
-                left: '友人や家族と賑やかに過ごす',
-                right: '一人で趣味に没頭したり、静かに過ごす'
+                id: 2, axis: 'E-I', context: 'private',
+                text: '週末は',
+                left: '友人と外出して過ごす',
+                right: '一人で静かに過ごす'
             },
             {
-                id: 3,
-                axis: 'E-I',
-                context: 'work',
-                type: 'situation',
-                text: '昼休みの過ごし方として好むのは？',
-                left: '同僚とランチに行き、会話を楽しむ',
-                right: '一人で静かに過ごし、エネルギーを充電する'
+                id: 3, axis: 'E-I', context: 'work',
+                text: '昼休みは',
+                left: '同僚と一緒に過ごす',
+                right: '一人でリラックスする'
             },
             {
-                id: 4,
-                axis: 'E-I',
-                context: 'private',
-                type: 'direct',
-                text: 'パーティーや大人数の集まりでは？',
-                left: '多くの人と交流し、エネルギーをもらう',
-                right: '少人数での深い会話を好み、早めに帰りたくなる'
+                id: 4, axis: 'E-I', context: 'private',
+                text: '大勢の集まりでは',
+                left: '多くの人と交流を楽しむ',
+                right: '数人との会話を深める'
             },
             {
-                id: 5,
-                axis: 'E-I',
-                context: 'work',
-                type: 'value',
-                text: 'ブレインストーミングをする時は？',
-                left: 'グループで話し合いながらアイデアを出す',
-                right: '一人で考えてからアイデアを共有する'
+                id: 5, axis: 'E-I', context: 'work',
+                text: 'アイデア出しは',
+                left: 'グループで話し合う',
+                right: '一人で考えてから共有'
             },
             {
-                id: 6,
-                axis: 'E-I',
-                context: 'private',
-                type: 'situation',
-                text: '新しい趣味を始める時は？',
-                left: 'サークルやグループに参加して仲間と楽しむ',
-                right: '独学で自分のペースで進める'
+                id: 6, axis: 'E-I', context: 'private',
+                text: '新しい趣味を始める時',
+                left: 'グループに参加する',
+                right: '独学で進める'
             },
             {
-                id: 7,
-                axis: 'E-I',
-                context: 'work',
-                type: 'direct',
-                text: '重要な決定を下す時は？',
-                left: '関係者と議論しながら決める',
-                right: '一人で熟考してから決定する'
+                id: 7, axis: 'E-I', context: 'work',
+                text: '重要な決定は',
+                left: 'チームで議論して決める',
+                right: 'じっくり一人で考える'
             },
             {
-                id: 8,
-                axis: 'E-I',
-                context: 'private',
-                type: 'value',
-                text: '疲れた時の回復方法は？',
-                left: '友人と会って話すことでリフレッシュ',
-                right: '一人の時間を持つことで回復'
+                id: 8, axis: 'E-I', context: 'private',
+                text: '疲れた時は',
+                left: '人と話してリフレッシュ',
+                right: '一人の時間で回復'
             },
             {
-                id: 9,
-                axis: 'E-I',
-                context: 'work',
-                type: 'situation',
-                text: '新しいチームメンバーとの関係構築は？',
-                left: 'すぐに打ち解けて親しくなる',
-                right: '時間をかけて徐々に関係を築く'
+                id: 9, axis: 'E-I', context: 'work',
+                text: '新しいメンバーとは',
+                left: 'すぐに打ち解ける',
+                right: '時間をかけて関係を築く'
             },
             {
-                id: 10,
-                axis: 'E-I',
-                context: 'private',
-                type: 'direct',
-                text: '旅行の計画を立てる時は？',
-                left: 'グループ旅行で賑やかに楽しむ',
-                right: '一人旅や少人数でゆったり過ごす'
+                id: 10, axis: 'E-I', context: 'private',
+                text: '旅行の計画は',
+                left: 'グループ旅行が楽しい',
+                right: '一人旅や少人数が良い'
             },
             {
-                id: 11,
-                axis: 'E-I',
-                context: 'work',
-                type: 'value',
-                text: 'オフィスの理想的な環境は？',
-                left: 'オープンスペースで活気がある環境',
-                right: '個室や静かで集中できる環境'
+                id: 11, axis: 'E-I', context: 'work',
+                text: '理想的な職場環境は',
+                left: 'オープンで活気がある',
+                right: '静かで集中できる'
             },
             {
-                id: 12,
-                axis: 'E-I',
-                context: 'private',
-                type: 'situation',
-                text: '初対面の人が多い場所では？',
-                left: '積極的に自己紹介し、会話を始める',
-                right: '様子を見ながら、話しかけられるのを待つ'
+                id: 12, axis: 'E-I', context: 'private',
+                text: '初対面の場では',
+                left: '積極的に話しかける',
+                right: '相手から来るのを待つ'
             },
             {
-                id: 13,
-                axis: 'E-I',
-                context: 'work',
-                type: 'direct',
-                text: 'プレゼンテーションの準備は？',
-                left: '人前で練習しながらブラッシュアップ',
-                right: '一人で完璧に準備してから披露'
+                id: 13, axis: 'E-I', context: 'work',
+                text: 'プレゼンの準備は',
+                left: '人前で練習する',
+                right: '一人で完璧に準備'
             },
             {
-                id: 14,
-                axis: 'E-I',
-                context: 'private',
-                type: 'value',
-                text: '休日の理想的な過ごし方は？',
-                left: 'イベントや外出で充実させる',
-                right: '家でゆっくり自分の時間を楽しむ'
+                id: 14, axis: 'E-I', context: 'private',
+                text: '理想の休日は',
+                left: '外出して活動的に',
+                right: '家でゆっくり過ごす'
             },
             {
-                id: 15,
-                axis: 'E-I',
-                context: 'work',
-                type: 'situation',
-                text: '電話とメールどちらを好む？',
-                left: '電話で直接話す方が効率的',
-                right: 'メールで考えをまとめてから伝える'
+                id: 15, axis: 'E-I', context: 'work',
+                text: 'コミュニケーションは',
+                left: '電話で直接話す',
+                right: 'メールで文章にまとめる'
             },
             {
-                id: 16,
-                axis: 'E-I',
-                context: 'private',
-                type: 'direct',
-                text: '友人との連絡頻度は？',
-                left: '頻繁に連絡を取り合う',
-                right: '必要な時だけ連絡する'
+                id: 16, axis: 'E-I', context: 'private',
+                text: '友人との連絡は',
+                left: '頻繁に取り合う',
+                right: '必要な時だけ'
             },
             {
-                id: 17,
-                axis: 'E-I',
-                context: 'work',
-                type: 'value',
-                text: '会議での発言スタイルは？',
-                left: '思いついたらすぐに発言する',
-                right: '考えをまとめてから発言する'
+                id: 17, axis: 'E-I', context: 'work',
+                text: '会議では',
+                left: 'すぐに意見を言う',
+                right: '考えてから発言'
             },
             {
-                id: 18,
-                axis: 'E-I',
-                context: 'private',
-                type: 'situation',
-                text: '新しいコミュニティに参加する時は？',
-                left: 'すぐに中心的な存在になる',
-                right: 'まず観察してから徐々に参加'
+                id: 18, axis: 'E-I', context: 'private',
+                text: '新しいコミュニティでは',
+                left: '中心的な存在になる',
+                right: 'まず観察から始める'
             },
             {
-                id: 19,
-                axis: 'E-I',
-                context: 'work',
-                type: 'direct',
-                text: 'ストレスを感じた時の対処法は？',
-                left: '同僚に相談して解決策を探る',
-                right: '一人で問題を整理して対処'
+                id: 19, axis: 'E-I', context: 'work',
+                text: 'ストレス解消は',
+                left: '同僚に相談する',
+                right: '一人で整理する'
             },
             {
-                id: 20,
-                axis: 'E-I',
-                context: 'private',
-                type: 'value',
-                text: '学習や勉強をする時は？',
-                left: 'スタディグループで一緒に学ぶ',
-                right: '一人で集中して学習する'
+                id: 20, axis: 'E-I', context: 'private',
+                text: '勉強する時は',
+                left: 'グループで一緒に',
+                right: '一人で集中して'
             },
             {
-                id: 21,
-                axis: 'E-I',
-                context: 'work',
-                type: 'situation',
-                text: 'ネットワーキングイベントでは？',
-                left: '多くの人と名刺交換を楽しむ',
-                right: '少数の人と深い話をする'
+                id: 21, axis: 'E-I', context: 'work',
+                text: 'ネットワーキングでは',
+                left: '多くの人と交流',
+                right: '数人と深い話'
             },
             {
-                id: 22,
-                axis: 'E-I',
-                context: 'private',
-                type: 'direct',
-                text: '誕生日の理想的な過ごし方は？',
-                left: '大勢でパーティーを開く',
-                right: '親しい人とだけ静かに過ごす'
+                id: 22, axis: 'E-I', context: 'private',
+                text: '誕生日は',
+                left: '大勢でパーティー',
+                right: '親しい人とだけ'
             },
             {
-                id: 23,
-                axis: 'E-I',
-                context: 'work',
-                type: 'value',
-                text: 'クリエイティブな作業をする時は？',
-                left: 'チームでアイデアを出し合う',
-                right: '一人で集中して創作する'
+                id: 23, axis: 'E-I', context: 'work',
+                text: 'クリエイティブ作業は',
+                left: 'チームでアイデア交換',
+                right: '一人で集中して創作'
             },
             {
-                id: 24,
-                axis: 'E-I',
-                context: 'private',
-                type: 'situation',
-                text: 'SNSの使い方は？',
-                left: '積極的に投稿し、交流を楽しむ',
-                right: '主に情報収集で、投稿は控えめ'
+                id: 24, axis: 'E-I', context: 'private',
+                text: 'SNSは',
+                left: '積極的に投稿・交流',
+                right: '主に情報収集'
             },
             {
-                id: 25,
-                axis: 'E-I',
-                context: 'work',
-                type: 'direct',
-                text: 'リモートワークについては？',
-                left: 'オフィスの方が活気があって良い',
-                right: '在宅の方が集中できて生産的'
+                id: 25, axis: 'E-I', context: 'work',
+                text: '働き方は',
+                left: 'オフィスで活気よく',
+                right: '在宅で集中して'
             },
 
             // S-N軸（25問）
             {
-                id: 26,
-                axis: 'S-N',
-                context: 'work',
-                type: 'direct',
-                text: '新しいプロジェクトを始める時、まず注目するのは？',
-                left: '具体的な実行計画と詳細なステップ',
-                right: '全体的なビジョンと可能性'
+                id: 26, axis: 'S-N', context: 'work',
+                text: 'プロジェクト開始時は',
+                left: '具体的な計画を重視',
+                right: '全体のビジョンを重視'
             },
             {
-                id: 27,
-                axis: 'S-N',
-                context: 'private',
-                type: 'value',
-                text: '本や映画を選ぶ基準は？',
-                left: '現実的でリアルなストーリー',
-                right: '想像力豊かなファンタジーやSF'
+                id: 27, axis: 'S-N', context: 'private',
+                text: '好む本や映画は',
+                left: 'リアルなストーリー',
+                right: 'ファンタジーやSF'
             },
             {
-                id: 28,
-                axis: 'S-N',
-                context: 'work',
-                type: 'situation',
-                text: '問題解決のアプローチは？',
-                left: '過去の成功事例を参考にする',
-                right: '新しい革新的な方法を試す'
+                id: 28, axis: 'S-N', context: 'work',
+                text: '問題解決は',
+                left: '過去の事例を参考',
+                right: '新しい方法を模索'
             },
             {
-                id: 29,
-                axis: 'S-N',
-                context: 'private',
-                type: 'direct',
-                text: '料理をする時は？',
-                left: 'レシピ通りに正確に作る',
-                right: 'アレンジを加えて創作する'
+                id: 29, axis: 'S-N', context: 'private',
+                text: '料理をする時は',
+                left: 'レシピ通りに作る',
+                right: 'アレンジして創作'
             },
             {
-                id: 30,
-                axis: 'S-N',
-                context: 'work',
-                type: 'value',
-                text: '報告書を作成する時に重視するのは？',
-                left: '具体的なデータと事実',
-                right: '傾向やパターンの洞察'
+                id: 30, axis: 'S-N', context: 'work',
+                text: '報告書では',
+                left: '具体的なデータ重視',
+                right: '傾向や洞察を重視'
             },
             {
-                id: 31,
-                axis: 'S-N',
-                context: 'private',
-                type: 'situation',
-                text: '新しい場所を訪れた時、最初に注目するのは？',
-                left: '具体的な建物や風景の詳細',
-                right: '場所全体の雰囲気や印象'
+                id: 31, axis: 'S-N', context: 'private',
+                text: '新しい場所では',
+                left: '建物や風景の詳細',
+                right: '全体の雰囲気や印象'
             },
             {
-                id: 32,
-                axis: 'S-N',
-                context: 'work',
-                type: 'direct',
-                text: '指示を出す/受ける時は？',
-                left: '具体的で詳細な指示が良い',
-                right: '大まかな方向性だけで十分'
+                id: 32, axis: 'S-N', context: 'work',
+                text: '指示は',
+                left: '具体的で詳細な方が良い',
+                right: '大まかな方向性で十分'
             },
             {
-                id: 33,
-                axis: 'S-N',
-                context: 'private',
-                type: 'value',
-                text: '会話で好む話題は？',
+                id: 33, axis: 'S-N', context: 'private',
+                text: '会話では',
                 left: '実際の出来事や経験',
-                right: '可能性やアイデアの探求'
+                right: '可能性やアイデア'
             },
             {
-                id: 34,
-                axis: 'S-N',
-                context: 'work',
-                type: 'situation',
-                text: '新技術の導入については？',
-                left: '実績のある確実な技術を選ぶ',
-                right: '最先端の革新的な技術に挑戦'
+                id: 34, axis: 'S-N', context: 'work',
+                text: '新技術導入は',
+                left: '実績のある確実な技術',
+                right: '最先端の革新的技術'
             },
             {
-                id: 35,
-                axis: 'S-N',
-                context: 'private',
-                type: 'direct',
-                text: '買い物をする時は？',
-                left: '必要なものリストを作って購入',
-                right: 'インスピレーションで衝動買い'
+                id: 35, axis: 'S-N', context: 'private',
+                text: '買い物は',
+                left: 'リストを作って計画的',
+                right: 'インスピレーションで'
             },
             {
-                id: 36,
-                axis: 'S-N',
-                context: 'work',
-                type: 'value',
-                text: '学習スタイルは？',
-                left: '実践的な演習から学ぶ',
-                right: '理論や概念から理解する'
+                id: 36, axis: 'S-N', context: 'work',
+                text: '学習は',
+                left: '実践的な演習から',
+                right: '理論や概念から'
             },
             {
-                id: 37,
-                axis: 'S-N',
-                context: 'private',
-                type: 'situation',
-                text: '将来の計画については？',
-                left: '現実的で達成可能な目標を設定',
-                right: '大きな夢や理想を追求'
+                id: 37, axis: 'S-N', context: 'private',
+                text: '将来の計画は',
+                left: '現実的で達成可能',
+                right: '大きな夢や理想'
             },
             {
-                id: 38,
-                axis: 'S-N',
-                context: 'work',
-                type: 'direct',
-                text: 'データ分析をする時は？',
-                left: '個々の数値を詳細に確認',
-                right: '全体的なトレンドを把握'
+                id: 38, axis: 'S-N', context: 'work',
+                text: 'データ分析では',
+                left: '個々の数値を詳細確認',
+                right: '全体的なトレンド把握'
             },
             {
-                id: 39,
-                axis: 'S-N',
-                context: 'private',
-                type: 'value',
-                text: '記憶に残りやすいのは？',
+                id: 39, axis: 'S-N', context: 'private',
+                text: '記憶に残るのは',
                 left: '具体的な事実や詳細',
                 right: '全体的な印象や意味'
             },
             {
-                id: 40,
-                axis: 'S-N',
-                context: 'work',
-                type: 'situation',
-                text: '改善提案をする時は？',
-                left: '現状の問題点を具体的に指摘',
+                id: 40, axis: 'S-N', context: 'work',
+                text: '改善提案は',
+                left: '現状の問題点を具体的に',
                 right: '理想的な将来像を描く'
             },
             {
-                id: 41,
-                axis: 'S-N',
-                context: 'private',
-                type: 'direct',
-                text: '説明をする時のスタイルは？',
-                left: '具体例を使って説明',
-                right: '比喩や概念で説明'
+                id: 41, axis: 'S-N', context: 'private',
+                text: '説明する時は',
+                left: '具体例を使って',
+                right: '比喩や概念で'
             },
             {
-                id: 42,
-                axis: 'S-N',
-                context: 'work',
-                type: 'value',
-                text: '仕事で重視するのは？',
+                id: 42, axis: 'S-N', context: 'work',
+                text: '仕事で重視するのは',
                 left: '着実な成果と安定性',
-                right: '革新性と成長の可能性'
+                right: '革新性と成長可能性'
             },
             {
-                id: 43,
-                axis: 'S-N',
-                context: 'private',
-                type: 'situation',
-                text: '趣味を選ぶ基準は？',
+                id: 43, axis: 'S-N', context: 'private',
+                text: '趣味を選ぶ基準は',
                 left: '実用的で役立つもの',
-                right: '創造的で想像力を使うもの'
+                right: '創造的で想像力を使う'
             },
             {
-                id: 44,
-                axis: 'S-N',
-                context: 'work',
-                type: 'direct',
-                text: '会議での発言内容は？',
-                left: '実際の事例や経験に基づく',
-                right: '新しいアイデアや可能性'
+                id: 44, axis: 'S-N', context: 'work',
+                text: '会議での発言は',
+                left: '実際の事例や経験',
+                right: '新しいアイデア'
             },
             {
-                id: 45,
-                axis: 'S-N',
-                context: 'private',
-                type: 'value',
-                text: '時間の使い方は？',
-                left: '今この瞬間を大切にする',
+                id: 45, axis: 'S-N', context: 'private',
+                text: '時間の使い方は',
+                left: '今この瞬間を大切に',
                 right: '将来の可能性を考える'
             },
             {
-                id: 46,
-                axis: 'S-N',
-                context: 'work',
-                type: 'situation',
-                text: 'マニュアル作成時は？',
-                left: '詳細な手順を網羅的に記載',
-                right: '概要と原則を中心に記載'
+                id: 46, axis: 'S-N', context: 'work',
+                text: 'マニュアル作成は',
+                left: '詳細な手順を網羅',
+                right: '概要と原則を中心に'
             },
             {
-                id: 47,
-                axis: 'S-N',
-                context: 'private',
-                type: 'direct',
-                text: '芸術作品を鑑賞する時は？',
-                left: '技術や細部の完成度に注目',
-                right: '作品の意味や象徴性を探る'
+                id: 47, axis: 'S-N', context: 'private',
+                text: '芸術鑑賞では',
+                left: '技術や細部の完成度',
+                right: '作品の意味や象徴性'
             },
             {
-                id: 48,
-                axis: 'S-N',
-                context: 'work',
-                type: 'value',
-                text: 'リスク管理については？',
-                left: '具体的なリスクを詳細に分析',
-                right: '大局的な視点でリスクを評価'
+                id: 48, axis: 'S-N', context: 'work',
+                text: 'リスク管理は',
+                left: '具体的リスクを詳細分析',
+                right: '大局的視点で評価'
             },
             {
-                id: 49,
-                axis: 'S-N',
-                context: 'private',
-                type: 'situation',
-                text: '新しいスキルを学ぶ時は？',
-                left: 'ステップバイステップで習得',
-                right: '全体像を理解してから詳細へ'
+                id: 49, axis: 'S-N', context: 'private',
+                text: '新スキル習得は',
+                left: 'ステップバイステップ',
+                right: '全体像理解から詳細へ'
             },
             {
-                id: 50,
-                axis: 'S-N',
-                context: 'work',
-                type: 'direct',
-                text: '成功の定義は？',
-                left: '測定可能な具体的な成果',
-                right: 'ビジョンの実現と影響力'
+                id: 50, axis: 'S-N', context: 'work',
+                text: '成功の定義は',
+                left: '測定可能な具体的成果',
+                right: 'ビジョン実現と影響力'
             },
 
             // T-F軸（25問）
             {
-                id: 51,
-                axis: 'T-F',
-                context: 'work',
-                type: 'direct',
-                text: '同僚が失敗した時の対応は？',
-                left: '原因を分析し、改善策を提案',
-                right: 'まず気持ちに寄り添い、励ます'
+                id: 51, axis: 'T-F', context: 'work',
+                text: '同僚が失敗した時は',
+                left: '原因分析と改善策提案',
+                right: 'まず気持ちに寄り添う'
             },
             {
-                id: 52,
-                axis: 'T-F',
-                context: 'private',
-                type: 'value',
-                text: '友人からアドバイスを求められたら？',
-                left: '客観的で論理的な解決策を提示',
-                right: '感情に配慮した温かいアドバイス'
+                id: 52, axis: 'T-F', context: 'private',
+                text: '友人の相談では',
+                left: '客観的な解決策を提示',
+                right: '感情に配慮したアドバイス'
             },
             {
-                id: 53,
-                axis: 'T-F',
-                context: 'work',
-                type: 'situation',
-                text: '人事評価をする時の基準は？',
-                left: '成果と能力を客観的に評価',
-                right: '努力や成長、チームへの貢献も重視'
+                id: 53, axis: 'T-F', context: 'work',
+                text: '人事評価の基準は',
+                left: '成果と能力を客観評価',
+                right: '努力や成長も重視'
             },
             {
-                id: 54,
-                axis: 'T-F',
-                context: 'private',
-                type: 'direct',
-                text: '議論や討論では？',
-                left: '論理的な正しさを追求',
-                right: '相手の気持ちを考慮して調和を保つ'
+                id: 54, axis: 'T-F', context: 'private',
+                text: '議論や討論では',
+                left: '論理的正しさを追求',
+                right: '相手の気持ちを配慮'
             },
             {
-                id: 55,
-                axis: 'T-F',
-                context: 'work',
-                type: 'value',
-                text: '決定を下す時の優先事項は？',
+                id: 55, axis: 'T-F', context: 'work',
+                text: '決定の優先事項は',
                 left: '効率性と合理性',
                 right: '人への影響と調和'
             },
             {
-                id: 56,
-                axis: 'T-F',
-                context: 'private',
-                type: 'situation',
-                text: '批判を受けた時の反応は？',
-                left: '論理的に正当性を検証',
-                right: '感情的な影響を強く受ける'
+                id: 56, axis: 'T-F', context: 'private',
+                text: '批判を受けた時は',
+                left: '論理的に正当性検証',
+                right: '感情的影響を強く受ける'
             },
             {
-                id: 57,
-                axis: 'T-F',
-                context: 'work',
-                type: 'direct',
-                text: 'フィードバックの仕方は？',
-                left: '率直で具体的な改善点を指摘',
-                right: '相手の気持ちに配慮した伝え方'
+                id: 57, axis: 'T-F', context: 'work',
+                text: 'フィードバックは',
+                left: '率直で具体的な指摘',
+                right: '相手の気持ちに配慮'
             },
             {
-                id: 58,
-                axis: 'T-F',
-                context: 'private',
-                type: 'value',
-                text: '人を評価する基準は？',
+                id: 58, axis: 'T-F', context: 'private',
+                text: '人を評価する基準は',
                 left: '能力や実績',
                 right: '人柄や思いやり'
             },
             {
-                id: 59,
-                axis: 'T-F',
-                context: 'work',
-                type: 'situation',
-                text: 'チーム内で対立が起きた時は？',
-                left: '事実に基づいて公平に判断',
-                right: '両者の感情を理解し、和解を促す'
+                id: 59, axis: 'T-F', context: 'work',
+                text: 'チーム内対立では',
+                left: '事実に基づき公平判断',
+                right: '両者の感情理解し和解促進'
             },
             {
-                id: 60,
-                axis: 'T-F',
-                context: 'private',
-                type: 'direct',
-                text: '褒められた時の反応は？',
-                left: '成果や能力を認められて満足',
-                right: '人格や努力を認められて嬉しい'
+                id: 60, axis: 'T-F', context: 'private',
+                text: '褒められた時は',
+                left: '成果や能力の認知で満足',
+                right: '人格や努力の認知で嬉しい'
             },
             {
-                id: 61,
-                axis: 'T-F',
-                context: 'work',
-                type: 'value',
-                text: '理想的な職場環境は？',
-                left: '成果主義で公平な評価',
+                id: 61, axis: 'T-F', context: 'work',
+                text: '理想的職場環境は',
+                left: '成果主義で公平評価',
                 right: '協力的で温かい人間関係'
             },
             {
-                id: 62,
-                axis: 'T-F',
-                context: 'private',
-                type: 'situation',
-                text: '映画や本で感動するのは？',
-                left: '巧妙な構成や論理的な展開',
+                id: 62, axis: 'T-F', context: 'private',
+                text: '映画や本で感動するのは',
+                left: '巧妙な構成や論理展開',
                 right: '登場人物の感情や人間ドラマ'
             },
             {
-                id: 63,
-                axis: 'T-F',
-                context: 'work',
-                type: 'direct',
-                text: '交渉や折衝では？',
-                left: '論理的に利益を最大化',
-                right: '相手との関係性を重視'
+                id: 63, axis: 'T-F', context: 'work',
+                text: '交渉や折衝では',
+                left: '論理的に利益最大化',
+                right: '相手との関係性重視'
             },
             {
-                id: 64,
-                axis: 'T-F',
-                context: 'private',
-                type: 'value',
-                text: '正しいことと優しいことどちらが大切？',
+                id: 64, axis: 'T-F', context: 'private',
+                text: '正しいことと優しいこと',
                 left: '真実を伝えることが最優先',
-                right: '相手の気持ちを傷つけない配慮'
+                right: '相手を傷つけない配慮'
             },
             {
-                id: 65,
-                axis: 'T-F',
-                context: 'work',
-                type: 'situation',
-                text: 'プロジェクトメンバーを選ぶ基準は？',
+                id: 65, axis: 'T-F', context: 'work',
+                text: 'メンバー選びは',
                 left: 'スキルと実績重視',
                 right: 'チームワークと人柄重視'
             },
             {
-                id: 66,
-                axis: 'T-F',
-                context: 'private',
-                type: 'direct',
-                text: '謝罪する/される時は？',
+                id: 66, axis: 'T-F', context: 'private',
+                text: '謝罪の時は',
                 left: '問題の解決策を重視',
                 right: '気持ちの伝達を重視'
             },
             {
-                id: 67,
-                axis: 'T-F',
-                context: 'work',
-                type: 'value',
-                text: '仕事のモチベーションは？',
-                left: '成果を出して認められること',
-                right: '人の役に立っていること'
+                id: 67, axis: 'T-F', context: 'work',
+                text: '仕事のモチベーションは',
+                left: '成果を出して認められる',
+                right: '人の役に立っている'
             },
             {
-                id: 68,
-                axis: 'T-F',
-                context: 'private',
-                type: 'situation',
-                text: 'プレゼント選びの基準は？',
+                id: 68, axis: 'T-F', context: 'private',
+                text: 'プレゼント選びは',
                 left: '実用的で役立つもの',
-                right: '相手の気持ちを考えた思い出に残るもの'
+                right: '相手の気持ち考えた記念品'
             },
             {
-                id: 69,
-                axis: 'T-F',
-                context: 'work',
-                type: 'direct',
-                text: 'ルール違反を見つけた時は？',
-                left: '規則に従って厳正に対処',
-                right: '事情を聞いて柔軟に対応'
+                id: 69, axis: 'T-F', context: 'work',
+                text: 'ルール違反を見つけたら',
+                left: '規則に従い厳正対処',
+                right: '事情を聞いて柔軟対応'
             },
             {
-                id: 70,
-                axis: 'T-F',
-                context: 'private',
-                type: 'value',
-                text: '人間関係で大切なのは？',
+                id: 70, axis: 'T-F', context: 'private',
+                text: '人間関係で大切なのは',
                 left: '公平性と一貫性',
                 right: '思いやりと共感'
             },
             {
-                id: 71,
-                axis: 'T-F',
-                context: 'work',
-                type: 'situation',
-                text: '部下や後輩の指導では？',
-                left: '明確な基準と客観的評価',
-                right: '個人の成長と感情的サポート'
+                id: 71, axis: 'T-F', context: 'work',
+                text: '部下や後輩指導では',
+                left: '明確基準と客観評価',
+                right: '個人成長と感情サポート'
             },
             {
-                id: 72,
-                axis: 'T-F',
-                context: 'private',
-                type: 'direct',
-                text: '自己紹介で強調するのは？',
+                id: 72, axis: 'T-F', context: 'private',
+                text: '自己紹介で強調するのは',
                 left: '実績や能力',
                 right: '価値観や人となり'
             },
             {
-                id: 73,
-                axis: 'T-F',
-                context: 'work',
-                type: 'value',
-                text: '会議での意見の出し方は？',
+                id: 73, axis: 'T-F', context: 'work',
+                text: '会議での意見は',
                 left: 'データと論理で説得',
                 right: '共感と協調を重視'
             },
             {
-                id: 74,
-                axis: 'T-F',
-                context: 'private',
-                type: 'situation',
-                text: '困っている人を見たら？',
+                id: 74, axis: 'T-F', context: 'private',
+                text: '困っている人を見たら',
                 left: '効果的な解決策を考える',
                 right: 'まず共感して寄り添う'
             },
             {
-                id: 75,
-                axis: 'T-F',
-                context: 'work',
-                type: 'direct',
-                text: '成功の要因として重視するのは？',
+                id: 75, axis: 'T-F', context: 'work',
+                text: '成功の要因は',
                 left: '戦略と実行力',
                 right: 'チームワークと信頼関係'
             },
 
             // J-P軸（25問）
             {
-                id: 76,
-                axis: 'J-P',
-                context: 'work',
-                type: 'direct',
-                text: 'プロジェクトの進め方は？',
-                left: '詳細な計画を立てて、スケジュール通りに進める',
-                right: '状況に応じて柔軟に対応しながら進める'
+                id: 76, axis: 'J-P', context: 'work',
+                text: 'プロジェクトの進め方は',
+                left: '詳細計画でスケジュール通り',
+                right: '状況に応じて柔軟対応'
             },
             {
-                id: 77,
-                axis: 'J-P',
-                context: 'private',
-                type: 'value',
-                text: '旅行の計画は？',
-                left: '事前に詳細な行程を決める',
-                right: '大まかな方向だけ決めて、現地で決める'
+                id: 77, axis: 'J-P', context: 'private',
+                text: '旅行の計画は',
+                left: '事前に詳細な行程決定',
+                right: '大まかな方向だけ決める'
             },
             {
-                id: 78,
-                axis: 'J-P',
-                context: 'work',
-                type: 'situation',
-                text: '締切に対する態度は？',
-                left: '余裕を持って早めに完了',
-                right: 'ギリギリまで粘って最高のものを'
+                id: 78, axis: 'J-P', context: 'work',
+                text: '締切への態度は',
+                left: '余裕持って早めに完了',
+                right: 'ギリギリまで粘って最高品質'
             },
             {
-                id: 79,
-                axis: 'J-P',
-                context: 'private',
-                type: 'direct',
-                text: '部屋の整理整頓は？',
+                id: 79, axis: 'J-P', context: 'private',
+                text: '部屋の整理整頓は',
                 left: '常に整理整頓されている',
                 right: '必要な時だけ片付ける'
             },
             {
-                id: 80,
-                axis: 'J-P',
-                context: 'work',
-                type: 'value',
-                text: '仕事のスタイルは？',
+                id: 80, axis: 'J-P', context: 'work',
+                text: '仕事のスタイルは',
                 left: '計画的で予測可能',
                 right: '即興的で適応的'
             },
             {
-                id: 81,
-                axis: 'J-P',
-                context: 'private',
-                type: 'situation',
-                text: '予定が急に変更になったら？',
-                left: 'ストレスを感じ、新しい計画を立てる',
+                id: 81, axis: 'J-P', context: 'private',
+                text: '予定変更があったら',
+                left: 'ストレス感じ新計画立案',
                 right: '新しい可能性を楽しむ'
             },
             {
-                id: 82,
-                axis: 'J-P',
-                context: 'work',
-                type: 'direct',
-                text: 'ToDoリストの使い方は？',
-                left: '詳細なリストを作成し、順番に処理',
-                right: 'その時の気分や優先度で選択'
+                id: 82, axis: 'J-P', context: 'work',
+                text: 'ToDoリストは',
+                left: '詳細リスト作成し順番処理',
+                right: '気分や優先度で選択'
             },
             {
-                id: 83,
-                axis: 'J-P',
-                context: 'private',
-                type: 'value',
-                text: '買い物の仕方は？',
-                left: 'リストを作って計画的に',
+                id: 83, axis: 'J-P', context: 'private',
+                text: '買い物の仕方は',
+                left: 'リスト作って計画的',
                 right: '気分や直感で決める'
             },
             {
-                id: 84,
-                axis: 'J-P',
-                context: 'work',
-                type: 'situation',
-                text: '複数のタスクがある時は？',
-                left: '優先順位を決めて一つずつ完了',
+                id: 84, axis: 'J-P', context: 'work',
+                text: '複数タスクがある時は',
+                left: '優先順位決めて一つずつ',
                 right: '複数を並行して進める'
             },
             {
-                id: 85,
-                axis: 'J-P',
-                context: 'private',
-                type: 'direct',
-                text: '週末の過ごし方は？',
+                id: 85, axis: 'J-P', context: 'private',
+                text: '週末の過ごし方は',
                 left: '事前に予定を決めている',
                 right: 'その日の気分で決める'
             },
             {
-                id: 86,
-                axis: 'J-P',
-                context: 'work',
-                type: 'value',
-                text: '理想的な仕事環境は？',
-                left: '構造化され、ルールが明確',
-                right: '自由度が高く、柔軟'
+                id: 86, axis: 'J-P', context: 'work',
+                text: '理想的仕事環境は',
+                left: '構造化されルール明確',
+                right: '自由度高く柔軟'
             },
             {
-                id: 87,
-                axis: 'J-P',
-                context: 'private',
-                type: 'situation',
-                text: '新しいことを始める時は？',
-                left: '十分な準備と計画を立ててから',
+                id: 87, axis: 'J-P', context: 'private',
+                text: '新しいことを始める時は',
+                left: '十分準備と計画立案から',
                 right: 'とりあえず始めてみる'
             },
             {
-                id: 88,
-                axis: 'J-P',
-                context: 'work',
-                type: 'direct',
-                text: '会議の進行は？',
+                id: 88, axis: 'J-P', context: 'work',
+                text: '会議の進行は',
                 left: 'アジェンダ通りに進める',
                 right: '議論の流れに任せる'
             },
             {
-                id: 89,
-                axis: 'J-P',
-                context: 'private',
-                type: 'value',
-                text: '人生の目標は？',
-                left: '明確で具体的な目標がある',
-                right: '大まかな方向性だけで柔軟に'
+                id: 89, axis: 'J-P', context: 'private',
+                text: '人生の目標は',
+                left: '明確で具体的な目標',
+                right: '大まかな方向性で柔軟に'
             },
             {
-                id: 90,
-                axis: 'J-P',
-                context: 'work',
-                type: 'situation',
-                text: '情報収集の方法は？',
-                left: '必要な情報を決めて収集',
-                right: '幅広く情報を集めてから選別'
+                id: 90, axis: 'J-P', context: 'work',
+                text: '情報収集の方法は',
+                left: '必要情報決めて収集',
+                right: '幅広く集めてから選別'
             },
             {
-                id: 91,
-                axis: 'J-P',
-                context: 'private',
-                type: 'direct',
-                text: '約束の時間については？',
+                id: 91, axis: 'J-P', context: 'private',
+                text: '約束の時間は',
                 left: '必ず時間通りに到着',
                 right: '多少の遅れは許容範囲'
             },
             {
-                id: 92,
-                axis: 'J-P',
-                context: 'work',
-                type: 'value',
-                text: '決断のタイミングは？',
-                left: '早めに決めて実行に移す',
-                right: 'ギリギリまで選択肢を残す'
+                id: 92, axis: 'J-P', context: 'work',
+                text: '決断のタイミングは',
+                left: '早めに決めて実行',
+                right: 'ギリギリまで選択肢残す'
             },
             {
-                id: 93,
-                axis: 'J-P',
-                context: 'private',
-                type: 'situation',
-                text: '服装の選び方は？',
+                id: 93, axis: 'J-P', context: 'private',
+                text: '服装の選び方は',
                 left: '前日に決めておく',
                 right: '当日の気分で選ぶ'
             },
             {
-                id: 94,
-                axis: 'J-P',
-                context: 'work',
-                type: 'direct',
-                text: 'プロジェクトの完了基準は？',
-                left: '明確な基準で完了を判断',
-                right: '改善の余地を常に探る'
+                id: 94, axis: 'J-P', context: 'work',
+                text: 'プロジェクト完了基準は',
+                left: '明確基準で完了判断',
+                right: '改善余地を常に探る'
             },
             {
-                id: 95,
-                axis: 'J-P',
-                context: 'private',
-                type: 'value',
-                text: 'ルーティンについては？',
+                id: 95, axis: 'J-P', context: 'private',
+                text: 'ルーティンについては',
                 left: '決まったルーティンが心地良い',
                 right: '変化と新鮮さを求める'
             },
             {
-                id: 96,
-                axis: 'J-P',
-                context: 'work',
-                type: 'situation',
-                text: '新しい方法の導入は？',
-                left: '慎重に検討してから導入',
-                right: '試してみて調整する'
+                id: 96, axis: 'J-P', context: 'work',
+                text: '新方法の導入は',
+                left: '慎重検討してから導入',
+                right: '試してみて調整'
             },
             {
-                id: 97,
-                axis: 'J-P',
-                context: 'private',
-                type: 'direct',
-                text: '財務管理は？',
-                left: '予算を立てて計画的に',
-                right: '大まかに把握して柔軟に'
+                id: 97, axis: 'J-P', context: 'private',
+                text: '財務管理は',
+                left: '予算立てて計画的',
+                right: '大まかに把握して柔軟'
             },
             {
-                id: 98,
-                axis: 'J-P',
-                context: 'work',
-                type: 'value',
-                text: '仕事の完成度は？',
-                left: '期限内に確実に完成させる',
-                right: '完璧を求めて期限を調整'
+                id: 98, axis: 'J-P', context: 'work',
+                text: '仕事の完成度は',
+                left: '期限内に確実完成',
+                right: '完璧求めて期限調整'
             },
             {
-                id: 99,
-                axis: 'J-P',
-                context: 'private',
-                type: 'situation',
-                text: 'レストランでの注文は？',
-                left: 'いつも同じお気に入りを注文',
-                right: '毎回新しいメニューに挑戦'
+                id: 99, axis: 'J-P', context: 'private',
+                text: 'レストランでの注文は',
+                left: 'いつものお気に入り',
+                right: '毎回新しいメニュー'
             },
             {
-                id: 100,
-                axis: 'J-P',
-                context: 'work',
-                type: 'direct',
-                text: '仕事の優先順位は？',
-                left: '重要度と緊急度で明確に決定',
-                right: '興味とインスピレーションで選択'
+                id: 100, axis: 'J-P', context: 'work',
+                text: '仕事の優先順位は',
+                left: '重要度と緊急度で明確決定',
+                right: '興味とインスピレーションで'
             }
         ];
 
-        // MBTI結果の詳細情報（既存のまま）
-        const mbtiProfiles = {
-            'INTJ': {
-                title: '建築家',
-                subtitle: '想像力豊かな戦略家',
-                description: '独立心が強く、決断力があり、自分の構想を実現しようと努力します。',
-                workStrengths: ['戦略的思考', '長期視点', 'システム構築', '効率性追求'],
-                privateStrengths: ['深い洞察力', '独創性', '自己管理能力', '知的好奇心'],
-                challenges: ['感情表現', '柔軟性', '忍耐力', '細部への注意'],
-                idealWork: '自律性が高く、創造的な問題解決ができる環境'
-            },
-            // ... 他の15タイプ（既存のデータを使用）
-        };
-
-        // 初期化
-        function init() {
-            initSectionProgress();
-        }
-
         // 診断開始
-        function startAssessment() {
-            currentSection = 0;
+        function startTest() {
+            currentQuestionIndex = 0;
             answers = new Array(100).fill(null);
             startTime = Date.now();
 
             document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('assessmentScreen').classList.remove('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
             
-            showSection();
+            showQuestion();
         }
 
-        // セクション表示
-        function showSection() {
-            const startIdx = currentSection * 10;
-            const endIdx = startIdx + 10;
-            const sectionQuestions = questions.slice(startIdx, endIdx);
+        // 質問表示
+        function showQuestion() {
+            const question = questions[currentQuestionIndex];
             
-            document.getElementById('sectionTitle').textContent = `セクション ${currentSection + 1}`;
-            updateAnsweredCount();
-            
-            const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-            
-            sectionQuestions.forEach((question, idx) => {
-                const globalIdx = startIdx + idx;
-                const contextClass = question.context === 'work' ? 'work' : 'private';
-                
-                const questionBlock = document.createElement('div');
-                questionBlock.className = `question-block ${contextClass}`;
-                questionBlock.innerHTML = `
-                    <div class="question-number">質問 ${globalIdx + 1}</div>
-                    <span class="question-context ${contextClass}">${question.context === 'work' ? '仕事' : 'プライベート'}</span>
-                    <div class="question-text">${question.text}</div>
-                    <div class="choice-container">
-                        <div class="choice-labels">
-                            <div class="choice-left">${question.left}</div>
-                            <div class="choice-right">${question.right}</div>
-                        </div>
-                        <div class="choice-circles">
-                            <div class="choice-circle ${answers[globalIdx] === 1 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 1)"></div>
-                            <div class="choice-circle ${answers[globalIdx] === 2 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 2)"></div>
-                            <div class="choice-circle ${answers[globalIdx] === 3 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 3)"></div>
-                            <div class="choice-circle ${answers[globalIdx] === 4 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 4)"></div>
-                            <div class="choice-circle ${answers[globalIdx] === 5 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 5)"></div>
-                            <div class="choice-circle ${answers[globalIdx] === 6 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 6)"></div>
-                            <div class="choice-circle ${answers[globalIdx] === 7 ? 'selected' : ''}" onclick="selectAnswer(${globalIdx}, 7)"></div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(questionBlock);
+            document.getElementById('questionNumber').textContent = `質問 ${currentQuestionIndex + 1}`;
+            document.getElementById('questionContext').textContent = question.context === 'work' ? '仕事' : 'プライベート';
+            document.getElementById('questionContext').className = `question-context ${question.context}`;
+            document.getElementById('questionText').textContent = question.text;
+            document.getElementById('choiceLeft').textContent = question.left;
+            document.getElementById('choiceRight').textContent = question.right;
+
+            // 選択状態をリセット
+            document.querySelectorAll('.choice-circle').forEach(circle => {
+                circle.classList.remove('selected');
             });
-            
+
+            // 既存の回答があれば表示
+            if (answers[currentQuestionIndex] !== null) {
+                const selectedIndex = answers[currentQuestionIndex] - 1;
+                document.querySelectorAll('.choice-circle')[selectedIndex].classList.add('selected');
+            }
+
             updateProgress();
             updateButtons();
-            window.scrollTo(0, 0);
         }
 
-        // 回答選択
-        function selectAnswer(questionIndex, value) {
-            answers[questionIndex] = value;
+        // 選択肢選択
+        function selectChoice(value) {
+            answers[currentQuestionIndex] = value;
             
-            // 同じ質問の他の円の選択を解除
-            const questionBlock = event.target.closest('.question-block');
-            const circles = questionBlock.querySelectorAll('.choice-circle');
-            circles.forEach(circle => circle.classList.remove('selected'));
-            
-            // 選択された円をハイライト
-            event.target.classList.add('selected');
-            
-            updateAnsweredCount();
-        }
+            // 選択状態を更新
+            document.querySelectorAll('.choice-circle').forEach((circle, index) => {
+                circle.classList.remove('selected');
+                if (index === value - 1) {
+                    circle.classList.add('selected');
+                }
+            });
 
-        // 回答数更新
-        function updateAnsweredCount() {
-            const startIdx = currentSection * 10;
-            const endIdx = startIdx + 10;
-            let count = 0;
-            
-            for (let i = startIdx; i < endIdx; i++) {
-                if (answers[i] !== null) count++;
-            }
-            
-            document.getElementById('answeredCount').textContent = `${count} / 10 回答済み`;
+            // エラーメッセージを隠す
+            document.getElementById('errorMessage').classList.remove('show');
         }
 
         // 進捗更新
         function updateProgress() {
-            const totalAnswered = answers.filter(a => a !== null).length;
-            const progress = (totalAnswered / questions.length) * 100;
-            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${totalAnswered} / 100 問完了`;
-            document.getElementById('sectionText').textContent = `セクション ${currentSection + 1} / 10`;
-            
-            const dots = document.querySelectorAll('.section-dot');
-            dots.forEach((dot, index) => {
-                dot.classList.remove('current', 'completed');
-                if (index < currentSection) {
-                    dot.classList.add('completed');
-                } else if (index === currentSection) {
-                    dot.classList.add('current');
-                }
-            });
+            document.getElementById('progressText').textContent = `${currentQuestionIndex + 1} / 100`;
+            document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
         }
 
         // ボタン状態更新
         function updateButtons() {
-            document.getElementById('prevBtn').disabled = currentSection === 0;
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            
             const nextBtn = document.getElementById('nextBtn');
-            
-            if (currentSection === 9) {
+            if (currentQuestionIndex === questions.length - 1) {
                 nextBtn.textContent = '結果を見る';
-                nextBtn.onclick = () => {
-                    if (validateSection()) {
-                        showResults();
-                    }
-                };
             } else {
-                nextBtn.textContent = '次のセクション';
-                nextBtn.onclick = nextSection;
+                nextBtn.textContent = '次の質問';
             }
         }
 
-        // セクション検証
-        function validateSection() {
-            const startIdx = currentSection * 10;
-            const endIdx = startIdx + 10;
-            
-            for (let i = startIdx; i < endIdx; i++) {
-                if (answers[i] === null) {
-                    const validationMsg = document.getElementById('validationMessage');
-                    validationMsg.classList.add('show');
-                    setTimeout(() => {
-                        validationMsg.classList.remove('show');
-                    }, 3000);
-                    return false;
-                }
+        // 次の質問
+        function nextQuestion() {
+            if (answers[currentQuestionIndex] === null) {
+                document.getElementById('errorMessage').classList.add('show');
+                return;
             }
-            return true;
-        }
 
-        // 次のセクション
-        function nextSection() {
-            if (!validateSection()) return;
-            
-            if (currentSection < 9) {
-                currentSection++;
-                showSection();
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                showResult();
             }
         }
 
-        // 前のセクション
-        function previousSection() {
-            if (currentSection > 0) {
-                currentSection--;
-                showSection();
+        // 前の質問
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
             }
         }
 
-        // セクション進捗初期化
-        function initSectionProgress() {
-            const container = document.getElementById('sectionProgress');
-            if (container) {
-                container.innerHTML = '';
-                for (let i = 0; i < 10; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'section-dot';
-                    if (i === 0) dot.classList.add('current');
-                    container.appendChild(dot);
-                }
-            }
+        // 結果表示
+        function showResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
         }
-
-        // 結果表示（既存の関数を使用）
-        function showResults() {
-            // 既存のshowResults関数のロジック
-            alert('診断完了！結果画面の実装が必要です。');
-        }
-
-        // ページ読み込み時に初期化
-        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
